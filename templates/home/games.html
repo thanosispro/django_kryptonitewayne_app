@@ -1,0 +1,158 @@
+{% extends 'home/basic.html' %}
+{% load humanize %}
+{% block search %}
+<form class="d-flex" role="search" method="POST" action="">{% csrf_token %}
+    <input name="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+    <input type="hidden" name="category" id="category" value=" ">
+    <button class="best-button">Search</button>
+</form>
+{% endblock %}
+{% block games %}
+active
+{% endblock %}
+{% block style %}
+<style>
+    .card img {
+        height: 250px;
+
+    }
+
+    .hero {
+        font-family: 'Roboto';
+        color: #5ee498;
+        letter-spacing: 2px;
+        text-align: start;
+        font-size: 25px;
+        animation:button 1s ease-in-out;
+
+    }
+
+    .card {
+        height: auto;
+        background: transparent;
+        box-shadow: 0px 0px 4px rgba(1, 252, 109, 0.4);
+    }
+
+    .card h5 {
+        font-family: 'Open Sans';
+        color: #00fffb;
+        letter-spacing: 2px;
+        line-height: 25px;
+        font-size: 25px;
+
+    }
+
+    .card-body p {
+        font-family: 'Roboto Condensed';
+        color: rgb(30, 255, 0);
+        letter-spacing: 2px;
+        line-height: 25px;
+    }
+
+    .card-body button {
+        height: 40px;
+        width: 200px;
+        border-radius: 5px;
+        border: 2px solid rgb(57, 156, 57);
+        font-family: 'Source Sans Pro';
+        letter-spacing: 1px;
+        color: #fff;
+        background-color: transparent;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .card-body button:hover {
+        background-color: #34bc6f;
+        color: black;
+    }
+    #category{
+        height: 50px;
+        padding: 0 5px;
+        width: auto;
+        background-color:transparent;
+        border:2px solid rgb(255, 46, 98);
+        cursor:pointer;
+        font-family: 'Roboto Slab';
+        color:#fff;
+        font-size: 20px;
+        letter-spacing:2px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        animation:button 1s ease-in-out;
+    }
+    #category:hover{
+        background-color: rgb(255, 36, 72);
+    }
+    @keyframes button{
+        from{
+            opacity: 0;
+            transform:translateY(-100px)
+        }
+        to{
+            opacity: 1;
+            transform:translateY(0px)
+        }
+    }
+    #collapseExample{
+        width: 500px;
+    }
+</style>
+{% endblock %}
+{% block body %}
+
+
+    <div class="container my-4">
+        <button id="category" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Search Category</button>
+
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body text-white"  style="display:grid;grid-template-columns: auto auto;">
+                {% for cat in category %}
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="{{cat}}" onclick="send_cat(this.id,this)">
+                    <label class="form-check-label" for="{{cat}}">{{cat}}</label>
+                  </div>
+                  {% endfor %}
+            </div>
+          </div>
+    <p class="hero my-4">Most polpular games scripts</p>
+    <div class="row">
+    {% for game in games %}
+    
+        <div class="col-md-6 col-sm-12 my-2">
+            <div class="card" style="width: auto; overflow: hidden;">
+                <img src="/media/{{game.image}}" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{game.heading}} ({{game.category}})</h5>
+                    <p class="card-text">{{game.content | slice:":200"}}...</p>
+                    <a href="/games_post/{{game.games_id}}"><button>GET SCRIPT</button></a>
+                    <p class="card-text"><small class="text-light">Last updated {{game.date|naturaltime}}</small></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    function clear_check()
+    {
+        for( let elm of [...document.getElementsByClassName('form-check-input')]){
+            elm.checked=false
+        }
+    }
+    function send_cat(value,that){
+        if(that.checked){
+            clear_check()
+            that.checked=true
+            document.getElementById('category').value=value
+            
+        }
+        else{
+            that.checked=false
+            console.log('working')
+            document.getElementById('category').value=' '
+        }
+    }
+</script>
+{% endblock %}

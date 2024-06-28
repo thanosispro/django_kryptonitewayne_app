@@ -1,0 +1,211 @@
+<!doctype html>
+  {% load static %}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KryptoniteWayne</title>
+<link rel="stylesheet" href="{% static 'bootstrap.css'%}">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arial&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Georgia&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Helvetica&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Verdana&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courier+New&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arial+Black&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Impact&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tahoma&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lucida+Console&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Trebuchet+MS&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Palatino+Linotype&display=swap">
+
+<link rel="stylesheet" href="{% static 'css/best.css' %}">
+{% block style %}
+{% endblock style %}
+<style>
+  .auth{
+    height: 50px;
+    width: 100px;
+    background-color:transparent;
+    cursor:pointer;
+    letter-spacing: 2px;
+    font-family: 'Open Sans';
+    color:#fff;
+    margin:0 20px;
+    border:2px solid rgb(21, 205, 21);
+    transition:all 0.3s ease;
+    border-radius:7px;
+
+  }
+  .auth:hover{
+    background-color:rgb(15, 224, 15);
+  }
+  .modal-content{
+    background-color: black;
+    box-shadow:0 0 5px rgba(255,255,255,0.5);
+
+  }
+  .modal-content label,h1,#emailHelp{
+    color:#fff;
+    letter-spacing: 2px;
+  }
+  #label_signup,#label_login{
+    color:red;
+
+  }
+</style>
+</head>
+<!-- MODAL IS HERE -->
+<div class="modal fade" id="signup" tabindex="-1" aria-labelledby="signupLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="signupLabel" style="letter-spacing: 2px;">signup</h1>
+        <button type="button" class="btn-close btn-outline-primary" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="signup_form" method="post" action="/signup/">{% csrf_token %}
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Username</label>
+            <input id="username" name="username" type="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input id="password" name="password" type="password" class="form-control" id="exampleInputPassword1">
+            <label id="label_signup" for=""></label>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div>
+          <button type="submit" class="btn btn-primary" onclick="form_test(event,document.getElementById('signup_form'),document.getElementById('username'),document.getElementById('password'),document.getElementById('label_signup'))">Submit</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL FOR SIGN UP -->
+<div class="modal fade" id="login" tabindex="-1" aria-labelledby="loginLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="loginLabel" style="letter-spacing: 2px;">login</h1>
+        <button type="button" class="btn-close btn-outline-primary" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="login_form" method="post" action="/login/" >{% csrf_token %}
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Username</label>
+            <input id="susername" name="susername" type="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          </div>
+         
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input id='spassword' name="spassword" type="password" class="form-control" id="exampleInputPassword1">
+            <label id="label_login" for=""></label>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div>
+          <button type="submit" class="btn btn-primary" >Submit</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL IS EMDING HERE -->
+<body class="bg-dark">
+
+  <nav class="navbar  navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark" >
+    <div class="container-fluid" style="padding:0 40px;">
+      <a class="navbar-brand" href="#"><img src="{% static 'ironman.png' %}" style="width:30px"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link {% block home %}{% endblock home %}" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% block games %}{% endblock games %}" href="/games">Games</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% block dll %}{% endblock dll %}" href="#">Dll errors</a>
+          </li>
+        
+        </ul>
+        {% if user.is_authenticated %}
+       
+            <span style="font-family:'Roboto';color:#FF1D1D;letter-spacing: 2px; align-self: center;">Welcome, <font style="color:#69F68F">{{ user.username }}!</font></span>
+            <a href="/logout"><button class="auth">Logout</button>
+            </a>
+            <!-- Display authenticated user content -->
+        {% else %}
+             <button class="auth" data-bs-toggle="modal" data-bs-target="#login">
+          Login
+         </button>
+         <button class="auth" data-bs-toggle="modal" data-bs-target="#signup">
+          signup
+         </button>
+            <!-- Display content for non-authenticated users -->
+        {% endif %}
+       
+        {% block search %}
+         
+        {% endblock search %}
+
+        
+      </div>
+    </div>
+  </nav>
+  <!-- Button trigger modal -->
+{% for message in messages %}
+<div class="alert alert-{% if message.tags == 'error' %}danger {% else %}success{% endif %}" role="alert">
+  {{message}}
+</div>
+{% endfor %}
+{% block body %}
+
+
+{% endblock body %}
+<script src="{% static 'bootstrap.js'%}"></script>
+<script>
+  function form_test(event,form,username,password,label){
+    event.preventDefault()
+    console.log(username,password)
+    console.log(password.value.length)
+    if(username.value.length<7 || password.value.length<7)
+    {
+      console.log('here')
+      event.preventDefault()
+      label.innerHTML=`the length of password and username must be greater than 7`
+    }
+  }
+</script>
+{% block script %}
+{% endblock script %}
+</body>
+</html>

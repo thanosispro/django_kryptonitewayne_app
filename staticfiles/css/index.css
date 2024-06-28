@@ -1,0 +1,90 @@
+
+.carousel-item img{
+    height: 600px;
+    
+}   
+.container1 h2,h3{
+    font-family: "Roboto";
+    color:#15d371;
+    text-align: center;
+    letter-spacing: 1.5px;
+    animation: width-fix 0.7s  ease-in-out ;
+
+}
+.container1 p{
+    font-family: 'Open Sans';
+    color:#11ff00;
+    letter-spacing: 4px;
+    font-size:40px;
+    margin-top:80px;
+    animation: fade-up 0.6s ease-in-out ;
+
+}
+.container1 .button1{
+    height: 60px;
+    width: 400px;
+    
+    
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+    font-family:'Tahoma';
+    
+    letter-spacing: 2px;
+    margin-top:80px;
+    font-size:20px;
+    background-color: transparent;
+    color:#fff;
+    border:2px solid #3CA70D;
+    transition: all 0.2s ease-in-out;
+    animation: anim-button 0.7s  ease-in-out ;
+
+}
+.container1 .button1:hover{
+    background-color: #11ff00;
+    color:#3e3a3a;
+}
+@keyframes anim-button{
+    from{
+        transform: scale(0.2);
+
+    }
+    to{
+        transform: scale(1);
+    }
+}
+@keyframes fade-up{
+    from{
+        transform: translateY(100px);
+    }
+    to{
+        transform: translateY(0);
+    }
+}
+@keyframes width-fix{
+    0%{
+        opacity: 0;
+        transform:translateY(-100px);
+    }
+    50%{
+        opacity: 0.3;
+        
+
+    }
+    100%{
+        opacity: 1;
+        transform:translateY(0px);
+    }
+}
+.card-body h5{
+    font-family: 'Roboto Condensed';
+    color:#11ff00;
+    letter-spacing: 2px;
+    
+}
+.card-body p{
+    font-family: 'Helvetica';
+    color:#11ff00;
+    letter-spacing: 2px;
+    
+}

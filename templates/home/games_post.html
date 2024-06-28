@@ -1,0 +1,198 @@
+{% extends 'home/basic.html' %}
+{% load humanize %}
+{% block games %}active{% endblock %}
+{% block style %}
+<style>
+    .container h4 {
+        font-family: 'Roboto';
+        letter-spacing: 2px;
+        color: rgb(0, 174, 255);
+        font-size: 25px;
+        animation: heading 0.7s ease-in-out;
+    }
+
+    @keyframes heading {
+        from {
+            transform: translateY(100px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .container img {
+        height: 500px;
+        animation: image 0.7s ease-in-out;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(109, 198, 109, 0.4);
+    }
+
+    @keyframes image {
+        from {
+            transform: scale(0.1);
+            opacity: 0;
+        }
+
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .container p {
+        font-family: 'Open Sans';
+        letter-spacing: 3px;
+        color: #fff;
+    }
+
+    .container button {
+        width: 200px;
+        height: 60px;
+        font-family: 'Tahoma';
+        letter-spacing: 2px;
+        color: #fff;
+        background-color: transparent;
+        border: 2px solid rgb(37, 224, 37);
+        box-shadow: 0 0 3px rgba(255, 255, 255, 0.4);
+        cursor: pointer;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .container button:hover {
+        background-color: rgb(37, 224, 37);
+    }
+
+    #submit {
+        border-color: rgb(255, 39, 75);
+        width: 100px;
+        font-family: 'Open Sans';
+
+    }
+
+    #submit:hover {
+        background-color: rgb(255, 66, 66);
+    }
+
+    .container .comment {
+        font-family: 'Lato';
+    }
+
+    .container .heading {
+        color: #ff5585;
+    }
+
+    .container h4 {
+        font-family: 'Lato';
+        letter-spacing: 2px;
+        font-size: 25px;
+        color: rgb(0, 238, 255);
+    }
+
+    #label1,
+    #label2 {
+        color: red;
+    }
+</style>
+{% endblock %}
+{% block body %}
+<div class="container my-2">
+    <div class="row">
+        <div class="col-12">
+    <h4 class="my-3">{{game.heading}} <span style="font-weight:lighter"
+        class="badge text-bg-secondary">Total views :{{ game.total_views}}</span></h4>
+    <img class="my-2 img-fluid" src="/media/{{game.image}}" alt="">
+    <p class="my-5">{{game.content}}</p>
+    <a href="{{game.download_url}}" download="{{game.heading}}.txt"><button class="my-2">DOWNLOAD</button></a></div></div>
+    <div class="comments my-4">
+        {% if user.is_authenticated %}
+        <h3 style="font-family: 'Lato'; color:#20fbfff5;letter-spacing: 2px; font-size: 20pxs;">Comments Here!</h3>
+        <form id="comment_form" action='/comments/' method='post'>{% csrf_token %}
+
+            <div class="mb-3">
+                <label for="commentss" class="form-label">Example textarea</label>
+                <textarea name="comment" class="form-control" id="commentss" rows="3"
+                    placeholder="POST YOUR COMMENT HERE"></textarea>
+                <label for="commentss" id="label1"></label>
+            </div>
+            <input name="id" type="hidden" value={{game.games_id}}>
+            <button type="submit" id='submit'
+                onclick="form_submit(event,document.getElementById('comment_form'),document.getElementById('commentss'),document.getElementById('label1'))">Submit</button>
+        </form>
+        {% else %}
+        <h4>Login to comment here</h4>
+        {% endif %}
+        {% for comment in comments %}
+        <div class="profile my-3" style="display:flex;gap:20px">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt=""
+                style="width: 100px;height:120px;border-radius: 50%;border: 2px solid rgb(84, 255, 84);">
+            <div style="display: flex;flex-direction:column;gap:10px;">
+                <p class="heading" style="font-size:20px">{{comment.person}} <span style="font-weight:lighter"
+                        class="badge text-bg-secondary">{{ comment.date|naturaltime}}</span></p>
+                <p class="comment">{{comment.comment}}</p>
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#{{comment.comments_id}}" aria-expanded="false" aria-controls="collapseExample"
+                    style="border-color:rgb(255, 84, 113);">
+                    Reply
+                </button>
+                <div class="collapse" id="{{comment.comments_id}}">
+                    <div class="card card-body"
+                        style="background-color: transparent; box-shadow:0 0px 4px rgba(255,255,255,0.6); width: 500px;">
+                        {% if user.is_authenticated %}
+                        <form id="reply_form" action='/replies/' method='post' >{% csrf_token %}
+
+                            <div class="mb-3">
+                                <label for="replys" class="form-label">Example textarea</label>
+                                <textarea name="reply" class="form-control" id="replys" rows="3"
+                                    placeholder="POST YOUR Reply here"></textarea>
+                                <label for="commentss" id='label2' style="color:red;letter-spacing: 2px;"></label>
+
+                            </div>
+
+                            <input name="id" type="hidden" value="{{comment.comments_id}}">
+                            <button type="submit" id='submit'
+                                onclick="form_submit(event,document.getElementById('reply_form'),document.getElementById('replys'),document.getElementById('label2'))">Submit</button>
+
+                        </form>
+                        {% else %}
+                        <h4>Login to Reply</h4>
+                        {% endif %}
+                        {% for reply in replies %}
+                        {% if reply.reply_id == comment %}
+                        <div class="profile my-3" style="display:flex;gap:20px">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt=""
+                                style="width: 100px;height:120px;border-radius: 50%;border: 2px solid rgb(84, 255, 84);">
+                            <div style="display: flex;flex-direction:column;gap:10px;">
+                                <p class="heading" style="font-size:20px">{{reply.person}} <span
+                                        class="badge text-bg-secondary" style="font-weight:lighter">{{reply.date|naturaltime}}</span></p>
+                                <p class="comment">{{reply.reply}}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+        {% endblock %}
+        {% block script %}
+        <script>
+            function form_submit(event, elm1, elm2, labels) {
+                
+                console.log(labels)
+                console.log(elm2)
+                console.log(elm1)
+                if (elm2.value.length < 2) {
+                    event.preventDefault()
+                    labels.innerHTML = `Character is too short for it type more `
+                }
+               
+            }
+        </script>
+        {% endblock %}

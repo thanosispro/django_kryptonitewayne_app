@@ -1,0 +1,34 @@
+.nav-item a{
+    font-family: 'Roboto';
+    letter-spacing: 2px;
+    color:#fff;
+  }
+ #navbarSupportedContent ul li{
+  margin:0 20px;
+
+ }
+ .best-button{
+  background-color:transparent;
+  cursor:pointer;
+  height: 40px;
+  width: 200px;
+  font-family: 'Open Sans';
+  letter-spacing: 2px;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  box-shadow:0px 2px 5px rgba(0,0,0,0.6);
+  border:2px solid #3CA70D;
+  transition: all 0.2s ease-in;
+ }
+ .best-button:hover{
+  background-color: #000EE3;
+ }
+ .nav-link.active{
+color:#fff;
+  border-bottom: 2px solid #3CA70D;
+ }
+
+.nav-link:hover{
+  border-bottom: 2px solid #3CA70D;
+ }
